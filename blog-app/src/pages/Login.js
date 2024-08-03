@@ -24,12 +24,12 @@ const Login = () =>{
                                 <Label for="password"> Enter Password </Label>
                                     <Input type="password" id="password" placeholder="Enter here"  />
                             </FormGroup>
-
+                            <Container className="text-center">
+                                <Button outline  color="light">Login</Button>
+                                <Button color="secondary" type="reset"className="ms-2">Reset</Button>
+                            </Container>
                         </Form>
-                        <Container className="text-center">
-                            <Button outline  color="light">Login</Button>
-                            <Button color="secondary" type="reset"className="ms-2">Reset</Button>
-                        </Container>
+                        
                         </CardBody>
                     </Card>
                  </Col>
