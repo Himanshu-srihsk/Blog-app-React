@@ -64,8 +64,11 @@ const NewFeed = ()=>{
        <div className="container-fluid">
           <Row>
           <Col md={
-              {  size: 10,
-                offset:1}
+              { 
+                //  size: 10,
+                // offset:1
+                size:12
+              }
             }>
                 <h1>Blogs counts ({postContent?.totalElements})</h1>
                 <InfiniteScroll

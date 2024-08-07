@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import userContext from "./userContext";
 function UserProvider({children}){
     const [user,setUser] = useState({
-        name:''
+        name:'Himanshu'
     })
+    useEffect(()=>{
+       setUser({
+        name:"Aditya"
+       })
+    },[])
     return(
-        <userContext.Provider>
-            {childrenS}
+        <userContext.Provider value={user}>
+            {children}
         </userContext.Provider>
     )
 }

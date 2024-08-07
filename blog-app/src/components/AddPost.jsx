@@ -1,8 +1,8 @@
-import { Button, Card, CardBody, Container, Form, Input } from "reactstrap";
+import { Button, Card, CardBody, Container, Form, Input, Label } from "reactstrap";
 import { loadAllCategories } from "../services/category-service";
 import { useEffect, useRef, useState } from "react";
 import JoditEditor from 'jodit-react';
-import { createPost  as doCreatePost} from "../services/post-service";
+import { createPost  as doCreatePost, uploadPostImage} from "../services/post-service";
 import { getCurrentUserDetail } from "../auth";
 import { toast } from "react-toastify";
 
@@ -11,6 +11,8 @@ const AddPost = () =>{
     const editor = useRef(null);
     const [content, setContent] = useState('');
     const [user, setUser] = useState(undefined);
+    const [image, setImage] = useState(null);
+
     const config = {
         placeholder:"Start typing..."
     }
@@ -44,6 +46,11 @@ const AddPost = () =>{
         setPost({...post,'content':data})
     }
 
+    const handleFileChange = (event)=>{
+        console.log(event.target.files[0])
+        setImage(event.target.files[0])
+    }
+
     const createPost =(event)=>{
         event.preventDefault();
         if(post.title.trim() === ''){
@@ -64,6 +71,13 @@ const AddPost = () =>{
         doCreatePost(post).then(data=>{
             toast.success("Post Created")
            // console.log(post)
+           uploadPostImage(image,data.postId).then(data=> {
+            toast.success("Image Uploaded !!")
+           }).catch(error=>{
+            toast.error("error in uploading image")
+            console.log(error)
+            
+           })
            setPost({
             title:'',
             content:'',
@@ -97,6 +111,11 @@ const AddPost = () =>{
                         
                                onChange={contentFieldChanged}
                             />
+                    </div>
+                    {/* fILE Input */}
+                    <div className="mt-3">
+                        <Label for="image">Select Post Image</Label>
+                        <Input type="file" id = "image" multiple onChange={handleFileChange}/>
                     </div>
 
                     <div className="my-3">
