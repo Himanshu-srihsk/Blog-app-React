@@ -48,3 +48,17 @@ export function loadPostCategoryWise(categoryId){
 export function loadPostUserWise(userId){
     return privateAxios.get(`/user/${userId}/posts`).then((response) => response.data)
 }
+
+//http://localhost:8083/api/v1/posts/4
+
+export function deletePostService(postId){
+    return privateAxios.delete(`/posts/${postId}`).then((response) => response.data)
+}
+
+//@PutMapping("/posts/{postId}")
+//http://localhost:8083/api/v1/posts/3
+
+export function updatePost(post,postId){
+    console.log(post)
+    return privateAxios.put(`/posts/${postId}`,post).then((response) => response.data)
+}

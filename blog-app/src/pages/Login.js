@@ -1,13 +1,15 @@
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Base from "../components/Base";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/user-service";
 import { doLogin } from "../auth";
 import { useNavigate } from "react-router-dom";
+import userContext from "../context/userContext";
 
 
 const Login = () =>{
+    const userContextData = useContext(userContext);
     const [loginDetail, setloginDetail] = useState({
         username:'',
         password:''
@@ -35,10 +37,15 @@ const Login = () =>{
         loginUser(loginDetail).then((data)=>{
             
             console.log(data);
-
+           //save the data to local storage
             doLogin(data,()=>{
                 console.log("login detail saved to local storage");
                 //Redirect to user dashboard
+                userContextData.setUser({
+                    // data:data, // wrong as when you just login you will not be able to update post saying not your post
+                    data:data.user, 
+                    login: true
+                })
                 navigate("/user/dashboard")
             })
             toast.success("Login Success");

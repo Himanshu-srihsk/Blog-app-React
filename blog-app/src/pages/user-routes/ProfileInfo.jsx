@@ -1,12 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Base from "../../components/Base"
 import userContext from "../../context/userContext";
+import { useParams } from "react-router-dom";
+import { getUser } from "../../services/user-service";
+import ViewUserProfile from "../../components/ViewUserProfile"; // Corrected import
+
+import { Col, Row } from "reactstrap";
 const ProfileInfo = () =>{
-   const user = useContext(userContext)
+   const object = useContext(userContext)
+   console.log("in profile",object)
+   
+   const {userId} = useParams()
+   const [user,setUser] = useState(null)
+   useEffect(()=>{
+      getUser(userId).then(data=>{
+         console.log(data)
+         setUser({...data})
+      })
+   },[])
+
+   const userView = () =>{
+      return (
+         <Row>
+            <Col md={{size:6, offset:3}}>
+            <ViewUserProfile user={user} />
+            </Col>
+         </Row>
+      )
+   }
    return (
       <Base>
-         <div>ProfileInfo</div>
-         <h1>Welcom {user.name}</h1>
+         {user? userView(): 'Loading user Data'}
       </Base>
     
    );

@@ -4,11 +4,12 @@ const About = () =>{
     return (
         <userContext.Consumer>
             {
-                (user) =>(
+                (Object) =>(
                     <Base>
                         <h1>This is about page</h1>
                         <p>we are building Blog application</p>
-                        <h1>Welcome User: {user.name}</h1>
+                        {console.log(Object)}
+                        <h1>Welcome User: {Object.user.login && Object.user.data.name}</h1>
                     </Base>
                 )
             }

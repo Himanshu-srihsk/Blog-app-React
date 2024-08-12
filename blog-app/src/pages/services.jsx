@@ -10,7 +10,7 @@ const Services = ()=>{
                     <h1>
                         This is services pages
                     </h1>
-                    <h1>Welcome user:{user.name}</h1>
+                    <h1>Welcome user:{user.user.data.name}</h1>
                     </Base>
                 )
             }

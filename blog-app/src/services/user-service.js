@@ -10,3 +10,11 @@ export const loginUser = (loginDetail) =>{
     .post("/auth/login",loginDetail)
     .then((response)=>response.data)
 }
+
+
+//http://localhost:8083/api/v1/users/2
+export const getUser = (userId) =>{
+    return myAxios
+    .get(`/users/${userId}`)
+    .then((response)=>response.data)
+}

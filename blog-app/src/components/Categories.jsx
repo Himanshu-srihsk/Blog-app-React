@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 import CategorySideMenu from  "../components/CategorySideMenu"
 import NewFeed from "../components/NewFeed"
-import { loadPostCategoryWise } from "../services/post-service";
+import { deletePostService, loadPostCategoryWise } from "../services/post-service";
 import { toast } from "react-toastify";
 import Post from "./Post";
 
@@ -20,6 +20,22 @@ function Categories(){
             toast.error("Error while loading post Category wise")
         })
     },[categoryId])
+
+    function deletePost(post){
+        deletePostService(post.postId).then(res=>{
+          console.log(res)
+          toast.success("post is Deleted")
+          //loadPostData()
+
+          let newPosts = posts.filter(p => p.postId != post.postId)
+      setPosts([...newPosts])
+    
+        }).catch(error=>{
+          console.log(error)
+          toast.error("Error while deleting post")
+        })
+      }
+
     return (
        <Base>
          <Container className="mt-3">
@@ -32,7 +48,7 @@ function Categories(){
                   {
                     posts && posts.map((post,index)=>{
                         return (
-                            <Post key={index} post={post}/>
+                            <Post deletePost={deletePost} key={index} post={post}/>
                         )
                     })
                   }

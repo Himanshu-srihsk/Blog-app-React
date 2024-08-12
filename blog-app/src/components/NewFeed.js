@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { loadAllPosts } from "../services/post-service";
+import { deletePostService, loadAllPosts } from "../services/post-service";
 import Base from "./Base";
 import { Row, Col, Pagination, PaginationItem, PaginationLink, Container} from "reactstrap";
 import Post from "./Post";
@@ -59,6 +59,19 @@ const NewFeed = ()=>{
        console.log("change page Infinite")
        setCurrentPage(currentPage+1)
     }
+
+    function deletePost(post){
+        deletePostService(post.postId).then(res=>{
+          console.log(res)
+          toast.success("post is Deleted")
+          
+         let newPostContent= postContent.content.filter(p=>p.postId!=post.postId)
+         setPostContent({...postContent,content:newPostContent})
+        }).catch(error=>{
+          console.log(error)
+          toast.error("Error while deleting post")
+        })
+      }
     
     return(
        <div className="container-fluid">
@@ -83,8 +96,8 @@ const NewFeed = ()=>{
                   }
                 >
                     {
-                        postContent.content.map((post) => (
-                            <Post post={post} key={post.postId} />
+                        postContent.content.map((post,index) => (
+                            <Post deletePost={deletePost} post={post} key={index} />
                         ))
                         
                     }
